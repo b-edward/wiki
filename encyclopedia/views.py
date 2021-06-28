@@ -1,5 +1,5 @@
+import re
 from django.shortcuts import render
-
 from . import util
 
 
@@ -24,18 +24,25 @@ def search(request):
   
     if util.convert(title) == False:
         entries = util.list_entries()
-        matches = [""]
+        matches = []
+        matchCount = 0
+        search = title
+
         for entry in entries:
-            for j in range(3):
-                match = str(entry[j])
-                if title == match:
-                    matches.append("match")
-        if matches[0] == "":
+            '''if entry.find(search) == -1:
+                matchCount = matchCount
+                continue '''
+            
+            if re.search(search, entry, re.IGNORECASE):
+                matches.append(entry)
+                matchCount = matchCount + 1
+
+        if matchCount == 0:
+            matchCount = 7
             return render(request, "encyclopedia/error.html", {
-            "title": title
+            "title": title, "matches": matches, "count": matchCount
             })            
         else: 
-            matches.append("test")
             return render(request, "encyclopedia/partial.html", {
                 "title": title, "matches": matches
                 })
