@@ -48,4 +48,4 @@ def convert(filename):
         html = markdown.markdown(f)        
         return html
     else:
-        return "Error: Requested Page Not Found"
+        return False
