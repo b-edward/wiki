@@ -1,4 +1,5 @@
 import re
+import markdown
 
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
@@ -32,9 +33,19 @@ def get_entry(title):
     """
     try:
         f = default_storage.open(f"entries/{title}.md")
-        return f.read().decode("utf-8")
+        return True
     except FileNotFoundError:
-        return "Error: requested page was not found."
+        return False
 
 
-
+def convert(filename):
+    """
+    Convert the .md entry into .html
+    """
+    if get_entry(filename):
+        f = default_storage.open(f"entries/{filename}.md")
+        f = f.read().decode("utf-8")
+        html = markdown.markdown(f)        
+        return html
+    else:
+        return "Error: Requested Page Not Found"
