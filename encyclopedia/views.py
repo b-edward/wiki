@@ -14,3 +14,10 @@ def entry(request, title):
         "title": title, "body": html
     })
 
+def search(request):
+    title = request.GET['q']
+    html = util.convert(title)
+    return render(request, "encyclopedia/entry.html", {
+        "title": title, "body": html
+    })
+
