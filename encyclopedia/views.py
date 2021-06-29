@@ -9,11 +9,39 @@ def index(request):
     })
 
 def entry(request, title):
-    html = util.convert(title)
-    return render(request, "encyclopedia/entry.html", {
-        "title": title, "body": html
-    })
+    if util.get_entry(title):       
+        html = util.convert(title)
+        return render(request, "encyclopedia/entry.html", {
+            "title": title, "body": html
+        })
+  
+    else:
+        matches = search(title)
 
+        if matches:
+            
+            return render(request, "encyclopedia/error.html", {
+            "title": title, "matches": matches
+            })            
+        else: 
+            return render(request, "encyclopedia/partial.html", {
+                "title": title, "matches": matches
+                })
+
+def search(request):
+        entries = util.list_entries()
+        matches = []
+        search = request
+
+        for entry in entries:        
+            if re.search(search, entry, re.IGNORECASE):
+                matches.append(entry)
+                
+        return matches
+            
+
+
+'''
 def search(request):
     title = request.GET['q']
     if util.convert(title):       
@@ -29,10 +57,11 @@ def search(request):
         search = title
 
         for entry in entries:
-            '''if entry.find(search) == -1:
+            if entry.find(search) == -1:
                 matchCount = matchCount
-                continue '''
-            
+                continue 
+
+           
             if re.search(search, entry, re.IGNORECASE):
                 matches.append(entry)
                 matchCount = matchCount + 1
@@ -46,3 +75,4 @@ def search(request):
             return render(request, "encyclopedia/partial.html", {
                 "title": title, "matches": matches
                 })
+'''
