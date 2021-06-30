@@ -1,7 +1,13 @@
 import re
 from django.shortcuts import render
 from . import util
+from django import forms
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
+class NewPageForm(forms.Form):
+    title = forms.CharField(label = "New Title")
+    body = forms.CharField(label = "New Body")
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -28,11 +34,7 @@ def search(request):
         matchCount = 0
         search = title
 
-        for entry in entries:
-            '''if entry.find(search) == -1:
-                matchCount = matchCount
-                continue '''
-            
+        for entry in entries:          
             if re.search(search, entry, re.IGNORECASE):
                 matches.append(entry)
                 matchCount = matchCount + 1
@@ -46,3 +48,18 @@ def search(request):
             return render(request, "encyclopedia/partial.html", {
                 "title": title, "matches": matches
                 })
+
+def add(request):
+    if request.method == "POST":
+        form = NewPageForm(request.POST)
+        if form.is_valid():
+            util.save_entry(form.cleaned_data["title"], form.cleaned_data["body"])
+            return HttpResponseRedirect(reverse("wiki:index"))
+        else:
+            return render(request, "encyclopedia/add.html", {
+                "form": form
+            })
+    else:
+        return render(request, "encyclopedia/add.html", {
+            "form": NewPageForm()
+        })
