@@ -10,6 +10,6 @@ urlpatterns = [
     path("<str:title>", views.entry, name="entry"),
     path("search/", views.search, name="search"),
     path("add/", views.add, name="add"),
-    path("edit/", views.edit, name="edit"),
+    path("edit/<str:entry>", views.edit, name="edit"),
     path("save/", views.save, name="save"),
 ]

@@ -7,9 +7,11 @@
 {% endblock %}
 
 {% block body %}
-  
+
+<h1>{{title}}</h1>
+
 {{body|safe}}
 
-<a href="{% url 'wiki:edit' %}">Edit This Page</a>
+<a href="{% url 'wiki:edit' title %}">Edit This Page</a>
 
 {% endblock %}

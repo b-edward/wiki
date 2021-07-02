@@ -73,7 +73,7 @@ def save(request):
                     "title": entry, "message": "an encyclopedia entry already exists with the provided title."
                     })       
         
-            body = "#" + title + "\n" + form.cleaned_data["body"]
+            body = form.cleaned_data["body"]
             util.save_entry(title, body)
 
             html = util.convert(title)
@@ -82,9 +82,29 @@ def save(request):
                 })
 
 # get an existing page and use it to present a form for editing
-def edit(request):
+def edit(request, entry):
     #editForm = NewPageForm(initial={util.convert(request.get)})
+    '''
+        return render(request, "encyclopedia/edit.html", {
+            "form": NewPageForm()
+        })
+    '''
 
-    return render(request, "encyclopedia/edit.html", {
-        "form": NewPageForm()
-    })
+    if request.method == "GET":
+        title = entry
+        content = util.get_entry(title)
+        form = NewPageForm({"title": title, "body": content})
+        return render(request, "encyclopedia/edit.html", {
+            "form": form, "title": title
+            })
+
+    form = NewPageForm(request.POST)
+
+    if form.is_valid():
+        title = form.cleaned_data.get("title")
+        body = form.cleaned_data["body"]
+        util.save_entry(title, body)
+        html = util.convert(title)
+        return render(request, "encyclopedia/entry.html", {
+            "title": title, "body": html
+            })
