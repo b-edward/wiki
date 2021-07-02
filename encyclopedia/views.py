@@ -4,6 +4,7 @@ from . import util
 from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from random import randint
 
 # form for creating a new page entry
 class NewPageForm(forms.Form):
@@ -108,3 +109,13 @@ def edit(request, entry):
         return render(request, "encyclopedia/entry.html", {
             "title": title, "body": html
             })
+
+# pick a random entry and return it
+def random(request):
+    entries = util.list_entries()
+    num_entries = len(entries)
+    random_entry = entries[randint(0, num_entries - 1)]
+    html = util.convert(random_entry)
+    return render(request, "encyclopedia/entry.html", {
+        "title": random_entry, "body": html
+        })
