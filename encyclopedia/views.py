@@ -55,6 +55,12 @@ def search(request):
 
 #add a new page
 def add(request):
+    return render(request, "encyclopedia/add.html", {
+        "form": NewPageForm()
+    })
+
+# save an entry
+def save(request):
     if request.method == "POST":
         form = NewPageForm(request.POST)
 
@@ -75,20 +81,10 @@ def add(request):
                 "title": title, "body": html
                 })
 
-        else:
-            return render(request, "encyclopedia/add.html", {
-                "form": form
-            })
-    else:
-        return render(request, "encyclopedia/add.html", {
-            "form": NewPageForm()
-        })
-
 # get an existing page and use it to present a form for editing
-def edit(request, title):
-    html = util.convert(title)
-    editForm = NewPageForm(title=title, body=html)
+def edit(request):
+    #editForm = NewPageForm(initial={util.convert(request.get)})
 
-    return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()
+    return render(request, "encyclopedia/edit.html", {
+        "form": NewPageForm()
     })
