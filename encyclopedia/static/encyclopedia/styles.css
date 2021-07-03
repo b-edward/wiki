@@ -28,11 +28,54 @@ textarea {
 }
 
 .sidebar {
-    background-color: #f0f0f0;
+    background-color: #c4c4c4;
     height: 100vh;
     padding: 20px;
 }
 
 .sidebar h2 {
     margin-top: 5px;
+}
+
+form {
+    padding: 20px 0;
+    text-align: left;
+    display: inline;
+    text-align: left;  
+
+}
+
+input[type=submit], button {
+    display: block;
+    margin: 5px;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    width: 140px;
+    border-style: hidden;
+}
+
+
+input[type=text] {
+    padding: 7px;
+    font: arial;
+    width: 75%;
+    border-radius: 0%;
+    display: block;
+} 
+
+button:hover {
+        border-style: solid;
+}
+
+#edit, #new {
+    display: block;
+    margin-left: 5%;
+    background-color: #5892ff;
+    color: white;
+    border-radius: 0%;
+    border-style: solid; 
+    border-width: .5px;
+    border-radius: 3px;
+    padding: 7px;
 }
