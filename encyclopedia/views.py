@@ -45,7 +45,7 @@ def search(request):
                 matchCount = matchCount + 1
 
         if matchCount == 0:
-            matchCount = 7
+            #matchCount = 7
             return render(request, "encyclopedia/error.html", {
             "title": title, "message": "Page Not Found."
             })            
@@ -119,3 +119,17 @@ def random(request):
     return render(request, "encyclopedia/entry.html", {
         "title": random_entry, "body": html
         })
+
+# find an entry from url
+def titlepage(request, title):
+    if util.convert(title):       
+        html = util.convert(title)
+        return render(request, "encyclopedia/entry.html", {
+            "title": title, "body": html
+        })
+  
+    else:
+        return render(request, "encyclopedia/error.html", {
+        "title": title, "message": "Page Not Found."
+        })            
+
