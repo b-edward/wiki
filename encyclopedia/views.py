@@ -21,7 +21,7 @@ def index(request):
 def entry(request, title):
     html = util.convert(title)
     return render(request, "encyclopedia/entry.html", {
-        "title": title, "body": html
+        "title": title.capitalize(), "body": html
     })
 
 # find a page
@@ -30,7 +30,7 @@ def search(request):
     if util.convert(title):       
         html = util.convert(title)
         return render(request, "encyclopedia/entry.html", {
-            "title": title, "body": html
+            "title": title.capitalize(), "body": html
         })
   
     if util.convert(title) == False:
@@ -45,7 +45,6 @@ def search(request):
                 matchCount = matchCount + 1
 
         if matchCount == 0:
-            #matchCount = 7
             return render(request, "encyclopedia/error.html", {
             "title": title, "message": "Page Not Found."
             })            
@@ -79,7 +78,7 @@ def save(request):
 
             html = util.convert(title)
             return render(request, "encyclopedia/entry.html", {
-                "title": title, "body": html
+                "title": title.capitalize(), "body": html
                 })
 
 # get an existing page and use it to present a form for editing
@@ -107,7 +106,7 @@ def edit(request, entry):
         util.save_entry(title, body)
         html = util.convert(title)
         return render(request, "encyclopedia/entry.html", {
-            "title": title, "body": html
+            "title": title.capitalize(), "body": html
             })
 
 # pick a random entry and return it
@@ -125,7 +124,7 @@ def titlepage(request, title):
     if util.convert(title):       
         html = util.convert(title)
         return render(request, "encyclopedia/entry.html", {
-            "title": title, "body": html
+            "title": title.capitalize(), "body": html
         })
   
     else:
